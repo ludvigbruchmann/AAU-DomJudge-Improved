@@ -38,7 +38,7 @@ $.get( cache, function( data ) {
   for (var i = 0; i < json["users"].length; i++) {
     if(json["users"][i]["completed"] > 0) {
       $('#users').append(
-        "<tr>" +
+        "<tr id=\"user-" + (i + 1) + "\" class=\"rank-" + (i + 1) + "\">" +
         "<td class=\"rank\">" + (i + 1) + "." + "</td>" +
         "<td class=\"user\">" + json["users"][i]["name"] + "</td>" +
         "<td class=\"user\">" + Math.round(json["users"][i]["score"]) + "</td>" +
