@@ -1,10 +1,16 @@
+#!/usr/bin/python
+
 from __future__ import division
 
+import sys
+sys.path.append("BeautifulSoup.pyc")
+
 import urllib2               # HTTP requests
-import ssl                   # Needed to bypass SSL error
 import BeautifulSoup as soup # HTML parser
 import time                  # Needed to add last updated time stamp
 import json                  # Needed to encode the output
+
+print "Content-type: text/html\n\n"
 
 pointInflation = 262144   # Use this to adjust for time based Scoreboard
 cacheFile  = "cache.json" # Where the scraped JSON data is written
@@ -15,15 +21,11 @@ checkCache   = open(cacheFile, "r")
 last_updated = json.loads(checkCache.read())["last_updated"]
 checkCache.close()
 
-if time.time() - last_updated > 60:
-    # Ignore SSL error on the DomJudge website
 
-    cert                = ssl.create_default_context()
-    cert.check_hostname = False
-    cert.verify_mode    = ssl.CERT_NONE
+if time.time() - last_updated > 60:
 
     domjudge = "https://domjudge.es.aau.dk/public/"
-    html     = soup.BeautifulSoup(urllib2.urlopen(domjudge, context=cert).read())
+    html     = soup.BeautifulSoup(urllib2.urlopen(domjudge).read())
 
     output   = {                      # JSON data generated from table
         "last_updated" : time.time(),
