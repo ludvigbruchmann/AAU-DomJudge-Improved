@@ -1,4 +1,4 @@
-const cache  = "cache.json";
+const cache  = "scrape.py";
 
 function score(user) {
   if(user["score"]["num_solved"] > 0){
