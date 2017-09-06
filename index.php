@@ -27,6 +27,8 @@
   <link rel="icon" type="image/png" sizes="96x96" href="http://img.ludvig.xyz/favicon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="http://img.ludvig.xyz/favicon/favicon-16x16.png">
 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>DomJudge Improved - AAU</title>
 
 </head>
