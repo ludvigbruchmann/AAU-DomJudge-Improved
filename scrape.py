@@ -22,7 +22,7 @@ if time.time() - last_updated > 60:
     cert.check_hostname = False
     cert.verify_mode    = ssl.CERT_NONE
 
-    domjudge = "http://localhost/Scoreboard.html" #"https://domjudge.es.aau.dk/public/"
+    domjudge = "https://domjudge.es.aau.dk/public/"
     html     = soup.BeautifulSoup(urllib2.urlopen(domjudge, context=cert).read())
 
     output   = {                      # JSON data generated from table
