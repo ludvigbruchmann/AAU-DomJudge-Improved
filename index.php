@@ -32,20 +32,28 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="main">
 
-    <div class="grid-12 center">
-      <h1>DomJudge Improved</h1>
+    <div class="container">
+
+      <div class="grid-12 center">
+        <h1>DomJudge Improved</h1>
+      </div>
+
+      <div class="grid-6 offset-3">
+        <p class="justify">Only users who have solved at least 1 problem are shown. The score is based on the points given for each problem and how long it took to solve the problem.</p>
+      </div>
+
+      <div class="grid-12 table">
+        <p class="center">Loading...</p>
+      </div>
+
     </div>
 
-    <div class="grid-6 offset-3">
-      <p class="justify">Only users who have solved at least 1 problem are shown. The score is based on the points given for each problem and how long it took to solve the problem.</p>
-    </div>
+  </div>
 
-    <div class="grid-12 table">
-      <p class="center">Loading...</p>
-    </div>
-
+  <div class="footer">
+    <p>Built with <a href="https://github.com/ludvigbruchmann/motus">Motus</a>.</p>
   </div>
 
 </body>
