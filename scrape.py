@@ -115,5 +115,5 @@ if time.time() - last_updated > 60:
     outputFile.close()
 
 returnFile = open(cacheFile, "r")
-#print returnFile.read()
+print returnFile.read()
 returnFile.close()
