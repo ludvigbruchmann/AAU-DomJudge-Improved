@@ -1,4 +1,4 @@
-const cache  = "scrape.json";//"/cgi-bin/scrape.py";
+const cache  = "/cgi-bin/scrape.py";
 
 function toggleProblems(user) {
   if($('.toggle-' + user).hasClass('hidden')) {
@@ -100,7 +100,7 @@ function sortBy(json, subsection, sortby) {
 }
 
 $.get( cache, function( data ) {
-  jsondata = data//JSON.parse(data);
+  jsondata = JSON.parse(data);
   jsondata["users"] = bubbleSort(jsondata["users"], "score");
   populate(jsondata);
 });
