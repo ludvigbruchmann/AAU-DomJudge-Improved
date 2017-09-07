@@ -1,10 +1,26 @@
 $ludvigxyz-blue: #4272e1
 
+.toggle
+  &.hidden
+    display: none
+
+tr
+  &.user
+    cursor: pointer
+  &.problem
+    .rank
+      border-top: none
+    &:last-child
+      .rank
+        border-bottom: 1px solid red
+
 .DomJudgeTable
   border: 1px solid #E1E1E1
   .rank
     background-color: #f7f7f7
     border-right: 1px solid #E1E1E1
+    border-bottom: none
+    border-top: 1px solid #E1E1E1
     width: 1px
     padding-right: 22px
     text-align: center

@@ -40,7 +40,8 @@ if time.time() - last_updated > 60:
         problems.append({
             "name" : problem.find("a").text,
             "points" : int(problem.find("span").text.replace("[","").replace(" point]","").replace(" points]","")),
-            "completed" : 0 # Users who completed this problem
+            "completed" : 0, # Users who completed this problem
+            "avg_points" : 0
         })
     output["problems"] = problems
 
@@ -72,7 +73,7 @@ if time.time() - last_updated > 60:
             if answer["state"] == "correct":
                 answer["tries"] = str(problem.text).split("/")[0]
                 answer["time"] = int(str(problem.text).split("/")[1])
-                answer["points"] = (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                answer["points"] = int(problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
                 score += answer["points"]
                 completed += 1
                 problems[answer["id"]]["completed"] += 1
@@ -82,7 +83,7 @@ if time.time() - last_updated > 60:
                 answer["time"] = int(str(problem.text).split("/")[1])
                 answer["state"] = answer["state"].replace(" first", "")
                 answer["first"] = True
-                answer["points"] = (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                answer["points"] = int(problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
                 score += answer["points"]
                 completed += 1
                 problems[answer["id"]]["completed"] += 1
@@ -111,7 +112,14 @@ if time.time() - last_updated > 60:
             "completed" : completed
         })
 
-
+    i = 0
+    for problem in output["problems"]:
+        problemScores = []
+        for user in output["users"]:
+            if user["problems"][i]["state"] == "correct":
+                problemScores.append(user["problems"][i]["points"])
+        problem["avg_points"] = int(sum(problemScores) / len(problemScores))
+        i += 1
 
     # Output file
 

@@ -38,12 +38,13 @@
 
     <div class="container">
 
-      <div class="grid-12 center">
+      <div class="grid-12 center mt">
         <h1>DomJudge Improved</h1>
       </div>
 
       <div class="grid-6 offset-3">
         <p class="justify">Only users who have solved at least 1 problem are shown. The score is based on the points given for each problem and how long it took to solve the problem.</p>
+        <p class="justify"><b>TIP:</b> Click on a user to see their score on each problem.</p>
       </div>
 
       <div class="grid-12 table">
