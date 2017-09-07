@@ -1,4 +1,4 @@
-const cache  = "cgi-bin/scrape.py";
+const cache  = "/cgi-bin/scrape.py";
 
 function toggleProblems(user) {
   if($('.toggle-' + user).hasClass('hidden')) {
@@ -37,7 +37,7 @@ function advancedScore(user) {
 }
 
 $.get( cache, function( data ) {
-  json = data;
+  json = JSON.parse(data);
   $('.table').html(
     "<table id=\"users\" style=\"width: 100%\" class=\"DomJudgeTable\">" +
     "<tr><th>#</th><th>User</th><th>Score</th><th>Accuracy</th><th>Completion</th></tr>" +
