@@ -69,7 +69,8 @@ if time.time() - last_updated > 60:
             if answer["state"] == "correct":
                 answer["tries"] = str(problem.text).split("/")[0]
                 answer["time"] = int(str(problem.text).split("/")[1])
-                score += (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                answer["points"] = (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                score += answer["points"]
                 completed += 1
                 problems[answer["id"]]["completed"] += 1
 
@@ -78,7 +79,8 @@ if time.time() - last_updated > 60:
                 answer["time"] = int(str(problem.text).split("/")[1])
                 answer["state"] = answer["state"].replace(" first", "")
                 answer["first"] = True
-                score += (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                answer["points"] = (problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
+                score += answer["points"]
                 completed += 1
                 problems[answer["id"]]["completed"] += 1
 
