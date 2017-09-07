@@ -1,4 +1,4 @@
-const cache  = "/cgi-bin/scrape.py";
+const cache  = "scrape.json";//"/cgi-bin/scrape.py";
 
 function toggleProblems(user) {
   if($('.toggle-' + user).hasClass('hidden')) {
@@ -8,52 +8,67 @@ function toggleProblems(user) {
   }
 }
 
-function score(user) {
-  if(user["score"]["num_solved"] > 0){
-    return user["score"]["num_solved"] / (user["score"]["total_time"] / 500000);
-  }
-  else {
-    return 0;
-  }
-}
+sortedby = 0;
 
-function advancedScore(user) {
-  if(user["score"]["num_solved"] > 0){
-    score = 0;
-    attempts = 0;
-    succeses = 0;
-    for (var i = 0; i < user["problems"].length; i++) {
-      if (user["problems"][i]["solved"]) {
-        score += 1 / (user["problems"][i]["time"] / 500000);
-        attempts += user["problems"][i]["num_judged"]
-        succeses += 1;
+function bubbleSort(list, sortby) {
+
+  temp = 0;
+
+  if (sortedby != sortby) {
+    sortedby = sortby;
+    for (var i = 0; i < list.length; i++) {
+      for (var j = 0; j < list.length; j++) {
+        if (j > 0) {
+          if (list[j - 1][sortby] > list[j][sortby]) {
+            temp = list[j - 1];
+            list[j - 1] = list[j];
+            list[j] = temp;
+          }
+        }
       }
     }
-    return [score, succeses, attempts];
   }
-  else {
-    return 0;
-  }
+
+  return list.reverse();
 }
 
-$.get( cache, function( data ) {
-  json = JSON.parse(data);
+/* Joe's bubble sort
+    public int[] bubblesort(int[] a)
+    {
+        int n = a.length;
+        int temp;
+
+        for(int i = 0; i < n; i++)  {
+            for(int j = 1; j < (n - i); j++)    {
+                if(a[j - 1] > a[j]) {
+                    temp = a[j - 1]; //swap
+                    a[j - 1] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
+        return a;
+    }
+*/
+
+function populate(json) {
   $('.table').html(
     "<table id=\"users\" style=\"width: 100%\" class=\"DomJudgeTable\">" +
-    "<tr><th>#</th><th>User</th><th>Score</th><th>Accuracy</th><th>Completion</th></tr>" +
+    "<tr><th>#</th><th>User</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'score');\">Score</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'accuracy');\">Accuracy</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'completed');\">Completion</th></tr>" +
     "</table>"
   );
+  x = 0;
   for (var i = 0; i < json["users"].length; i++) {
     if(json["users"][i]["completed"] > 0) {
       $('#users').append(
-        "<tr id=\"user-" + (i + 1) + "\" class=\"user rank-" + (i + 1) + "\" onclick=\"toggleProblems(" + (i + 1) + ")\">" +
-        "<td class=\"rank\">" + (i + 1) + "." + "</td>" +
+        "<tr id=\"user-" + (x + 1) + "\" class=\"user rank-" + (x + 1) + "\" onclick=\"toggleProblems(" + (x + 1) + ")\">" +
+        "<td class=\"rank\">" + (x + 1) + "." + "</td>" +
         "<td class=\"user\">" + json["users"][i]["name"] + "</td>" +
         "<td class=\"user\">" + Math.round(json["users"][i]["score"]) + "</td>" +
         "<td class=\"user\">" + Math.round((json["users"][i]["accuracy"] * 100)) + "%</td>" +
         "<td class=\"user\">" + json["users"][i]["completed"] + "/" + json["problems"].length + "</td>" +
         "</tr>" +
-        "<tr id=\"user-" + (i + 1) + "\" class=\"problem toggle toggle-" + (i + 1) + " hidden\">" +
+        "<tr id=\"user-" + (x + 1) + "\" class=\"problem toggle toggle-" + (x + 1) + " hidden\">" +
         "<th class=\"rank\"></th>" +
         "<th>Problem</th>" +
         "<th>Score</th>" +
@@ -64,7 +79,7 @@ $.get( cache, function( data ) {
       for (var j = 0; j < json["users"][i]["problems"].length; j++) {
         if (json["users"][i]["problems"][j]["state"] == "correct") {
           $('#users').append(
-            "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (i + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
+            "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (x + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
             "<td class=\"rank\">" + "</td>" +
             "<td class=\"\">" + json["problems"][j]["name"] + "</td>" +
             "<td class=\"\">" + Math.round(json["users"][i]["problems"][j]["points"]) + "</td>" +
@@ -74,6 +89,18 @@ $.get( cache, function( data ) {
           );
         }
       }
+      x += 1;
     }
   }
+}
+
+function sortBy(json, subsection, sortby) {
+  json[subsection] = bubbleSort(json[subsection], sortby);
+  populate(json);
+}
+
+$.get( cache, function( data ) {
+  jsondata = data//JSON.parse(data);
+  jsondata["users"] = bubbleSort(jsondata["users"], "score");
+  populate(jsondata);
 });
