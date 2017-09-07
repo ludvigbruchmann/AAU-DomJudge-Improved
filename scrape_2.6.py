@@ -59,6 +59,8 @@ if time.time() - last_updated > 60:
         attempts = 0
         i = 0
 
+        # TODO: The time of a problem is based on when the class was created, not when the problem was created, fix this somehow, maybe add min time to solve on the problems
+
         for problem in columns[5:]: # For every problem, [5:] because the problems start at column 6
 
             answer = {
