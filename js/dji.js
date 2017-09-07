@@ -1,4 +1,4 @@
-const cache  = "scrape.json";
+const cache  = "cgi-bin/scrape.py";
 
 function toggleProblems(user) {
   if($('.toggle-' + user).hasClass('hidden')) {
