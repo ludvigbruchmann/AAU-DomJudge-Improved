@@ -54,7 +54,7 @@ function bubbleSort(list, sortby) {
 function populate(json) {
   $('.table').html(
     "<table id=\"users\" style=\"width: 100%\" class=\"DomJudgeTable\">" +
-    "<tr><th>#</th><th>User</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'score');\">Score</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'accuracy');\">Accuracy</th><th class=\"sortable\" onclick=\"sortBy(jsondata, 'users', 'completed');\">Completion</th></tr>" +
+    "<tr><th>#</th><th>User</th><th class=\"sortable sort-score\" onclick=\"sortBy(jsondata, 'users', 'score');\">Score</th><th class=\"sortable sort-accuracy\" onclick=\"sortBy(jsondata, 'users', 'accuracy');\">Accuracy</th><th class=\"sortable sort-completed\" onclick=\"sortBy(jsondata, 'users', 'completed');\">Completion</th></tr>" +
     "</table>"
   );
   x = 0;
@@ -78,9 +78,14 @@ function populate(json) {
       );
       for (var j = 0; j < json["users"][i]["problems"].length; j++) {
         if (json["users"][i]["problems"][j]["state"] == "correct") {
+          if (json["users"][i]["problems"][j]["first"]) {
+            firstState = "<i class=\"ion-android-star\" title=\"First user to solve this problem\"></i>";
+          } else {
+            firstState = "";
+          }
           $('#users').append(
             "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (x + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
-            "<td class=\"rank\">" + "</td>" +
+            "<td class=\"rank\">" + firstState + "</td>" +
             "<td class=\"name\">" + json["problems"][j]["name"].replace("w1-p", "Problem ") + "</td>" +
             "<td class=\"score\">" + Math.round(json["users"][i]["problems"][j]["points"]) + "</td>" +
             "<td class=\"tries\">" + json["users"][i]["problems"][j]["tries"] + "</td>" +

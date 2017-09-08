@@ -14,13 +14,20 @@ tr
   &.problem
     .rank
       border-top: none
+      color: #ccc
 
 .sortable
   cursor: pointer
-  &:after
-    font-family: ionicons
-    content: " \f35f"
-    color: #888
+  &.ascending
+    &:after
+      font-family: ionicons
+      content: " \f35f"
+      color: #888
+  &.descending
+    &:after
+      font-family: ionicons
+      content: " \f365"
+      color: #888
 
 .DomJudgeTable
   border: 1px solid #E1E1E1
