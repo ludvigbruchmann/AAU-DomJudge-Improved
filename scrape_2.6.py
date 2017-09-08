@@ -12,7 +12,7 @@ import json                  # Needed to encode the output
 
 print "Content-type: text/html\n\n"
 
-pointInflation = 1024     # Use this to adjust for time based Scoreboard
+pointInflation = 1000     # Use this to adjust for time based Scoreboard
 cacheFile  = "cache.json" # Where the scraped JSON data is written
 
 # Check when cache was last updated
@@ -94,10 +94,10 @@ if time.time() - last_updated > 60:
                 if answer["state"] == "correct" or answer["state"] == "correct first":
                     answer["tries"] = str(problem.text).split("/")[0]
                     answer["time"] = int(str(problem.text).split("/")[1])
-                    timeToAnswer = int(answer["time"] - problems[i]["min_time"]) + 240
+                    timeToAnswer = int(answer["time"] - problems[i]["min_time"]) + 360
                     if timeToAnswer > 2880:
                         timeToAnswer = 2880
-                    timeToAnswer /= 240
+                    timeToAnswer /= 360
                     points = int(problems[answer["id"]]["points"] / (timeToAnswer / pointInflation))
                     answer["points"] = points
                     score += answer["points"]
