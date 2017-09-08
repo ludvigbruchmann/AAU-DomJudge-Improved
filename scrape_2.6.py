@@ -12,7 +12,7 @@ import json                  # Needed to encode the output
 
 print "Content-type: text/html\n\n"
 
-pointInflation = 262144   # Use this to adjust for time based Scoreboard
+pointInflation = 1024     # Use this to adjust for time based Scoreboard
 cacheFile  = "cache.json" # Where the scraped JSON data is written
 
 # Check when cache was last updated
@@ -36,17 +36,35 @@ if time.time() - last_updated > 60:
     table        = html.find("table", { "class" : "scoreboard" })
     tableHeaders = table.findAll("th")
     problems     = []
+
     for problem in tableHeaders[3:]:
         problems.append({
             "name" : problem.find("a").text,
             "points" : int(problem.find("span").text.replace("[","").replace(" point]","").replace(" points]","")),
             "completed" : 0, # Users who completed this problem
-            "avg_points" : 0
+            "avg_points" : 0,
+            "min_time" : 0
         })
+
     output["problems"] = problems
 
     tableBody = table.find("tbody")
     rows      = tableBody.findAll("tr")
+
+    for row in rows:
+
+        columns  = row.findAll("td")
+        i = 0
+
+        for problem in columns[5:]:
+
+            try:
+                if int(str(problem.text).split("/")[1]) < problems[i]["min_time"]:
+                    problems[i]["min_time"] = int(str(problem.text).split("/")[1])
+                elif problems[i]["min_time"] == 0:
+                    problems[i]["min_time"] = int(str(problem.text).split("/")[1])
+                i += 1
+            except Exception as e: pass
 
     for row in rows:
 
@@ -72,23 +90,24 @@ if time.time() - last_updated > 60:
                 "state" : problem["class"].replace("score_", "")
             }
 
-            if answer["state"] == "correct":
-                answer["tries"] = str(problem.text).split("/")[0]
-                answer["time"] = int(str(problem.text).split("/")[1])
-                answer["points"] = int(problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
-                score += answer["points"]
-                completed += 1
-                problems[answer["id"]]["completed"] += 1
+            try:
+                if answer["state"] == "correct" or answer["state"] == "correct first":
+                    answer["tries"] = str(problem.text).split("/")[0]
+                    answer["time"] = int(str(problem.text).split("/")[1])
+                    timeToAnswer = int(answer["time"] - problems[i]["min_time"]) + 240
+                    if timeToAnswer > 2880:
+                        timeToAnswer = 2880
+                    timeToAnswer /= 240
+                    points = int(problems[answer["id"]]["points"] / (timeToAnswer / pointInflation))
+                    answer["points"] = points
+                    score += answer["points"]
+                    completed += 1
+                    problems[answer["id"]]["completed"] += 1
 
-            elif answer["state"] == "correct first":
-                answer["tries"] = str(problem.text).split("/")[0]
-                answer["time"] = int(str(problem.text).split("/")[1])
-                answer["state"] = answer["state"].replace(" first", "")
-                answer["first"] = True
-                answer["points"] = int(problems[answer["id"]]["points"] / (answer["time"] / pointInflation))
-                score += answer["points"]
-                completed += 1
-                problems[answer["id"]]["completed"] += 1
+                if answer["state"] == "correct first":
+                    answer["state"] = answer["state"].replace(" first", "")
+                    answer["first"] = True
+            except Exception as e: print(e)
 
             answer["tries"] = int(answer["tries"])
 
