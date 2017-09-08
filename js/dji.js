@@ -1,5 +1,7 @@
 const cache  = "/cgi-bin/scrape.py";
 
+sortedby = 0;
+
 function toggleProblems(user) {
   if($('.toggle-' + user).hasClass('hidden')) {
     $('.toggle-' + user).removeClass('hidden');
@@ -8,7 +10,15 @@ function toggleProblems(user) {
   }
 }
 
-sortedby = 0;
+function formatNumber(n) {
+  var rx=  /(\d+)(\d{3})/;
+  return String(n).replace(/^\d+/, function(w){
+      while(rx.test(w)){
+          w= w.replace(rx, '$1.$2');
+      }
+      return w;
+  });
+}
 
 function bubbleSort(list, sortby) {
 
@@ -64,7 +74,7 @@ function populate(json) {
         "<tr id=\"user-" + (x + 1) + "\" class=\"user rank-" + (x + 1) + "\" onclick=\"toggleProblems(" + (x + 1) + ")\">" +
         "<td class=\"rank\">" + (x + 1) + "." + "</td>" +
         "<td class=\"user\">" + json["users"][i]["name"] + "</td>" +
-        "<td class=\"user\">" + Math.round(json["users"][i]["score"]) + "</td>" +
+        "<td class=\"user\">" + formatNumber(json["users"][i]["score"]) + "</td>" +
         "<td class=\"user\">" + Math.round((json["users"][i]["accuracy"] * 100)) + "%</td>" +
         "<td class=\"user\">" + json["users"][i]["completed"] + "/" + json["problems"].length + "</td>" +
         "</tr>" +
@@ -87,7 +97,7 @@ function populate(json) {
             "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (x + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
             "<td class=\"rank\">" + firstState + "</td>" +
             "<td class=\"name\">" + json["problems"][j]["name"].replace("w1-p", "Problem ") + "</td>" +
-            "<td class=\"score\">" + Math.round(json["users"][i]["problems"][j]["points"]) + "</td>" +
+            "<td class=\"score\">" + formatNumber(json["users"][i]["problems"][j]["points"]) + "</td>" +
             "<td class=\"tries\">" + json["users"][i]["problems"][j]["tries"] + "</td>" +
             "<td class=\"avgScore\">" + json["problems"][j]["avg_points"] + "</td>" +
             "</tr>"
