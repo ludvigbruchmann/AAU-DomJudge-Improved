@@ -90,24 +90,22 @@ if time.time() - last_updated > 60:
                 "state" : problem["class"].replace("score_", "")
             }
 
-            try:
-                if answer["state"] == "correct" or answer["state"] == "correct first":
-                    answer["tries"] = str(problem.text).split("/")[0]
-                    answer["time"] = int(str(problem.text).split("/")[1])
-                    timeToAnswer = int(answer["time"] - problems[i]["min_time"]) + 360
-                    if timeToAnswer > 2880:
-                        timeToAnswer = 2880
-                    timeToAnswer /= 360
-                    points = int(problems[answer["id"]]["points"] / (timeToAnswer / pointInflation))
-                    answer["points"] = points
-                    score += answer["points"]
-                    completed += 1
-                    problems[answer["id"]]["completed"] += 1
+            if answer["state"] == "correct" or answer["state"] == "correct first":
+                answer["tries"] = str(problem.text).split("/")[0]
+                answer["time"] = int(str(problem.text).split("/")[1])
+                timeToAnswer = int(answer["time"] - problems[i]["min_time"]) + 500
+                if timeToAnswer > 2880:
+                    timeToAnswer = 2880
+                timeToAnswer /= 500
+                points = int(problems[answer["id"]]["points"] / (timeToAnswer / pointInflation))
+                answer["points"] = points
+                score += answer["points"]
+                completed += 1
+                problems[answer["id"]]["completed"] += 1
 
-                if answer["state"] == "correct first":
-                    answer["state"] = answer["state"].replace(" first", "")
-                    answer["first"] = True
-            except Exception as e: print(e)
+            if answer["state"] == "correct first":
+                answer["state"] = answer["state"].replace(" first", "")
+                answer["first"] = True
 
             answer["tries"] = int(answer["tries"])
 
