@@ -62,9 +62,10 @@ function bubbleSort(list, sortby) {
 */
 
 function populate(json) {
+  var last_updated = new Date(jsondata["last_updated"] * 1000);
   $('.table').html(
     "<table id=\"users\" style=\"width: 100%\" class=\"DomJudgeTable\">" +
-    "<tr><th>#</th><th>User</th><th class=\"sortable sort-score\" onclick=\"sortBy(jsondata, 'users', 'score');\">Score</th><th class=\"sortable sort-accuracy\" onclick=\"sortBy(jsondata, 'users', 'accuracy');\">Accuracy</th><th class=\"sortable sort-completed\" onclick=\"sortBy(jsondata, 'users', 'completed');\">Completion</th></tr>" +
+    "<tr><th></th><th>User</th><th class=\"sortable sort-score\" onclick=\"sortBy(jsondata, 'users', 'score');\">Score</th><th class=\"sortable sort-accuracy\" onclick=\"sortBy(jsondata, 'users', 'accuracy');\">Accuracy</th><th class=\"sortable sort-completed\" onclick=\"sortBy(jsondata, 'users', 'completed');\">Completion</th></tr>" +
     "</table>"
   );
   x = 0;
@@ -107,6 +108,7 @@ function populate(json) {
       x += 1;
     }
   }
+  $(".table").append("<p class=\"center\"><b>Last updated:</b> " + last_updated.toLocaleDateString() + " " + last_updated.toLocaleTimeString() + "</p>");
 }
 
 function sortBy(json, subsection, sortby) {

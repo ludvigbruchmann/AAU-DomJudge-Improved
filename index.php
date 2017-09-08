@@ -40,8 +40,10 @@
 
       <div class="grid-6 offset-3">
         <img src="logo.svg" alt="DomJudge Improved" class="responsive-img center-img"/>
-        <p class="justify">Only users who have solved at least 1 problem are shown. The score is based on the points given for each problem and how long it took to solve the problem.</p>
-        <p class="justify"><b>TIP:</b> Click on a user to see their score on each problem.</p>
+        <p class="justify">
+          Only users who have solved at least 1 problem are shown. The full score algorithm can be found on <a href="https://github.com/ludvigbruchmann/AAU-DomJudge-Improved">GitHub</a>. It is based on the points given for each problem, and how long it took to solve the problem.
+        </p>
+        <p class="center"><b>TIP:</b> Click on a user to see their score on each problem.</p>
       </div>
 
       <div class="grid-12 table">
