@@ -81,10 +81,10 @@ function populate(json) {
           $('#users').append(
             "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (x + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
             "<td class=\"rank\">" + "</td>" +
-            "<td class=\"\">" + json["problems"][j]["name"] + "</td>" +
-            "<td class=\"\">" + Math.round(json["users"][i]["problems"][j]["points"]) + "</td>" +
-            "<td class=\"\">" + json["users"][i]["problems"][j]["tries"] + "</td>" +
-            "<td class=\"\">" + json["problems"][j]["avg_points"] + "</td>" +
+            "<td class=\"name\">" + json["problems"][j]["name"].replace("w1-p", "Problem ") + "</td>" +
+            "<td class=\"score\">" + Math.round(json["users"][i]["problems"][j]["points"]) + "</td>" +
+            "<td class=\"tries\">" + json["users"][i]["problems"][j]["tries"] + "</td>" +
+            "<td class=\"avgScore\">" + json["problems"][j]["avg_points"] + "</td>" +
             "</tr>"
           );
         }
