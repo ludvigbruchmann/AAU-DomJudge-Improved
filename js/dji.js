@@ -1,5 +1,32 @@
 const cache  = "/cgi-bin/scrape.py";
 
+function createChart(canvas, type, title, labels, data) {
+  $("#" + canvas).removeClass("hidden");
+  var ctx = document.getElementById(canvas + "-canvas").getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: type,
+      data: {
+          labels: labels,
+          datasets: [{
+              label: title,
+              data: data,
+              backgroundColor: "rgba(97, 232, 137, .33)",
+              borderColor: "rgba(97, 232, 137, 1)",
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+}
+
 sortedby = 0;
 
 function toggleProblems(user) {
@@ -97,7 +124,7 @@ function populate(json) {
           $('#users').append(
             "<tr id=\"problem-" + (j + 1) + "\" class=\"toggle toggle-" + (x + 1) + " hidden problem problem-" + (j + 1) + " " + json["users"][i]["problems"][j]["state"] + "\">" +
             "<td class=\"rank\">" + firstState + "</td>" +
-            "<td class=\"name\">" + json["problems"][j]["name"].replace("w1-p", "Problem ") + "</td>" +
+            "<td class=\"name\">" + json["problems"][j]["name"] + "</td>" +
             "<td class=\"score\">" + formatNumber(json["users"][i]["problems"][j]["points"]) + "</td>" +
             "<td class=\"tries\">" + json["users"][i]["problems"][j]["tries"] + "</td>" +
             "<td class=\"avgScore\">" + json["problems"][j]["avg_points"] + "</td>" +
@@ -119,5 +146,12 @@ function sortBy(json, subsection, sortby) {
 $.get( cache, function( data ) {
   jsondata = JSON.parse(data);
   jsondata["users"] = bubbleSort(jsondata["users"], "score");
+  labels = [];
+  numAnswered = [];
+  for (var i = 0; i < jsondata["problems"].length; i++) {
+    labels.push(jsondata["problems"][i]["name"]);
+    numAnswered.push(jsondata["problems"][i]["completed"]);
+  }
+  createChart("problems-graph", "bar", "Users completed", labels, numAnswered)
   populate(jsondata);
 });

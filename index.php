@@ -7,6 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 
   <script src='js/dji.js'></script>
 
@@ -44,6 +45,10 @@
           Only users who have solved at least 1 problem are shown. The full score algorithm can be found on <a href="https://github.com/ludvigbruchmann/AAU-DomJudge-Improved">GitHub</a>. It is based on the points given for each problem, and how long it took to solve the problem.
         </p>
         <p class="center"><b>TIP:</b> Click on a user to see their score on each problem.</p>
+      </div>
+
+      <div class="grid-12 mb hidden" id="problems-graph">
+        <canvas id="problems-graph-canvas" width="800" height="320"></canvas>
       </div>
 
       <div class="grid-12 table">
