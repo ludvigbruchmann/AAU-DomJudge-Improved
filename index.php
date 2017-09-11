@@ -1,5 +1,8 @@
 <head>
 
+  <meta charset="UTF-8" />
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/motus.min.css">
   <link rel="stylesheet" href="css/style.min.css">
@@ -60,7 +63,7 @@
   </div>
 
   <div class="footer">
-    <p>Built with <a href="https://github.com/ludvigbruchmann/motus">Motus</a>.</p>
+    <p>Built with <a href="https://github.com/ludvigbruchmann/motus">Motus</a>, by <a href="http://ludvig.xyz/">Ludvig Alexander Brüchmann</a>.</p>
   </div>
 
 </body>
