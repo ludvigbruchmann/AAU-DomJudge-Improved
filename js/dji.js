@@ -27,6 +27,40 @@ function createChart(canvas, type, title, labels, data) {
   });
 }
 
+function createDoubleChart(canvas, type, title, stitle, labels, data, sdata) {
+  $("#" + canvas).removeClass("hidden");
+  var ctx = document.getElementById(canvas + "-canvas").getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: type,
+      data: {
+          labels: labels,
+          datasets: [{
+              label: title,
+              data: data,
+              backgroundColor: "rgba(97, 232, 137, .33)",
+              borderColor: "rgba(97, 232, 137, 1)",
+              borderWidth: 1
+          },
+          {
+              label: stitle,
+              data: sdata,
+              backgroundColor: "rgba(232, 97, 137, .33)",
+              borderColor: "rgba(232, 97, 137, 1)",
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+}
+
 sortedby = 0;
 
 function toggleProblems(user) {
@@ -46,6 +80,8 @@ function formatNumber(n) {
       return w;
   });
 }
+
+// Thanks to Johannes for help with the bubblesort algorithm
 
 function bubbleSort(list, sortby) {
 
@@ -68,25 +104,6 @@ function bubbleSort(list, sortby) {
 
   return list.reverse();
 }
-
-/* Joe's bubble sort
-    public int[] bubblesort(int[] a)
-    {
-        int n = a.length;
-        int temp;
-
-        for(int i = 0; i < n; i++)  {
-            for(int j = 1; j < (n - i); j++)    {
-                if(a[j - 1] > a[j]) {
-                    temp = a[j - 1]; //swap
-                    a[j - 1] = a[j];
-                    a[j] = temp;
-                }
-            }
-        }
-        return a;
-    }
-*/
 
 function populate(json) {
   var last_updated = new Date(jsondata["last_updated"] * 1000);
@@ -144,14 +161,35 @@ function sortBy(json, subsection, sortby) {
 }
 
 $.get( cache, function( data ) {
+
   jsondata = JSON.parse(data);
   jsondata["users"] = bubbleSort(jsondata["users"], "score");
+  populate(jsondata);
+
   labels = [];
   numAnswered = [];
+  problemAttempts = [];
   for (var i = 0; i < jsondata["problems"].length; i++) {
     labels.push(jsondata["problems"][i]["name"]);
     numAnswered.push(jsondata["problems"][i]["completed"]);
+    problemAttempts.push([]);
   }
-  createChart("problems-graph", "bar", "Users completed", labels, numAnswered)
-  populate(jsondata);
+  /* UNCOMMENT FOR DOUBLE GRAPH OF ANSWERS AND ATTEMPTS
+  for (var i = 0; i < jsondata["users"].length; i++) {
+    for (var j = 0; j < jsondata["users"][i]["problems"].length; j++) {
+      problemAttempts[j][i] = jsondata["users"][i]["problems"][j];
+    }
+  }
+  difRating = [];
+  for (var i = 0; i < problemAttempts.length; i++) {
+    sum = 0;
+    for (var j = 0; j < problemAttempts[i].length; j++) {
+      sum += problemAttempts[i][j]["tries"];
+    }
+    difRating.push(sum);
+  }
+  createDoubleChart("problems-graph", "bar", "Users completed", "attempts", labels, numAnswered, difRating);
+  */
+  createChart("problems-graph", "bar", "Users completed", labels, numAnswered);
+
 });
