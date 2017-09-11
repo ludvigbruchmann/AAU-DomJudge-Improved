@@ -1,4 +1,4 @@
-![DomJudge Improved](logo.svg)
+# DomJudge Improved
 
 Better looking website for https://domjudge.es.aau.dk/
 
