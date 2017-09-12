@@ -63,8 +63,8 @@ if time.time() - last_updated > 60:
                     problems[i]["min_time"] = int(str(problem.text).split("/")[1])
                 elif problems[i]["min_time"] == 0:
                     problems[i]["min_time"] = int(str(problem.text).split("/")[1])
-                i += 1
             except Exception as e: pass
+            i += 1
 
     for row in rows:
 
