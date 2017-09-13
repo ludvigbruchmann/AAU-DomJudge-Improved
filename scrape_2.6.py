@@ -137,7 +137,9 @@ if time.time() - last_updated > 60:
         for user in output["users"]:
             if user["problems"][i]["state"] == "correct":
                 problemScores.append(user["problems"][i]["points"])
-        problem["avg_points"] = int(sum(problemScores) / len(problemScores))
+        try:
+            problem["avg_points"] = int(sum(problemScores) / len(problemScores))
+        except Exception as e: pass
         i += 1
 
     # Output file
