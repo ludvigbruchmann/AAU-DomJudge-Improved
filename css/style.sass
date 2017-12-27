@@ -1,5 +1,9 @@
 $ludvigxyz-blue: #4272e1
 
+@keyframes spin
+  100%
+    transform: rotate(360deg)
+
 .main
   a
     color: #000
@@ -60,3 +64,11 @@ body
       color: #444
       text-decoration: underline
     padding-top: 26px
+
+.spinner
+  animation: spin .5s linear infinite
+  height: 64px
+  width: 64px
+  margin-top: 2rem
+  margin-bottom: 4rem
+

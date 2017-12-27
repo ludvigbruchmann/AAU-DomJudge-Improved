@@ -55,7 +55,7 @@
       </div>
 
       <div class="grid-12 table">
-        <p class="center">Loading...</p>
+        <img src="spinner.svg" class="spinner centerimg" alt="" />
       </div>
 
     </div>
