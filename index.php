@@ -58,6 +58,13 @@
         <img src="spinner.svg" class="spinner centerimg" alt="" />
       </div>
 
+      <div class="grid-12 discord">
+        <p>
+          Join the Aalborg University CPH Discord server.<br>
+          <a href="https://discord.gg/JfGRgpg"><img src="https://discordapp.com/api/guilds/394918256734896128/embed.png" alt="" /></a>
+        </p>
+      </div>
+
     </div>
 
   </div>
